@@ -1,14 +1,16 @@
 import sbt.Keys._
 import sbt.Project.projectToRef
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 // a special crossProject for configuring a JS/JVM/shared structure
-lazy val shared = (crossProject.crossType(CrossType.Pure) in file("shared"))
+lazy val shared = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure) // in file("shared")
   .settings(
     scalaVersion := Settings.versions.scala,
     libraryDependencies ++= Settings.sharedDependencies.value
   )
   // set up settings specific to the JS project
-  .jsConfigure(_ enablePlugins ScalaJSWeb)
+  // .jsSettings(_ enablePlugins ScalaJSWeb)
 
 lazy val sharedJVM = shared.jvm.settings(name := "sharedJVM")
 
@@ -30,7 +32,7 @@ lazy val client: Project = (project in file("client"))
     scalacOptions ++= elideOptions.value,
     jsDependencies ++= Settings.jsDependencies.value,
     // RuntimeDOM is needed for tests
-    jsDependencies += RuntimeDOM % "test",
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv,
     // yes, we want to package JS dependencies
     skip in packageJSDependencies := false,
     // use Scala.js provided launcher code to start the client app
