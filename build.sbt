@@ -1,16 +1,14 @@
 import sbt.Keys._
 import sbt.Project.projectToRef
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 // a special crossProject for configuring a JS/JVM/shared structure
-lazy val shared = crossProject(JSPlatform, JVMPlatform)
-  .crossType(CrossType.Pure) // in file("shared")
+lazy val shared = (crossProject.crossType(CrossType.Pure) in file("shared"))
   .settings(
     scalaVersion := Settings.versions.scala,
     libraryDependencies ++= Settings.sharedDependencies.value
   )
   // set up settings specific to the JS project
-  // .jsSettings(_ enablePlugins ScalaJSWeb)
+  .jsConfigure(_ enablePlugins ScalaJSWeb)
 
 lazy val sharedJVM = shared.jvm.settings(name := "sharedJVM")
 
