@@ -22,17 +22,17 @@ object Settings {
 
   /** Declare global dependency versions here to avoid mismatches in multi part dependencies */
   object versions {
-    val scala = "2.11.11"
+    val scala = "2.12.6"
     val scalaDom = "0.9.3"
-    val scalajsReact = "1.1.0"
+    val scalajsReact = "1.3.1"
     val scalaCSS = "0.5.3"
     val log4js = "1.4.10"
     val autowire = "0.2.6"
     val booPickle = "1.2.6"
-    val diode = "1.1.2"
+    val diode = "1.1.4"
     val uTest = "0.4.7"
 
-    val react = "15.6.1"
+    val react = "16.1.0"
     val jQuery = "1.11.1"
     val bootstrap = "3.3.6"
     val chartjs = "2.1.3"
@@ -63,15 +63,15 @@ object Settings {
     "com.github.japgolly.scalajs-react" %%% "extra" % versions.scalajsReact,
     "com.github.japgolly.scalacss" %%% "ext-react" % versions.scalaCSS,
     "io.suzaku" %%% "diode" % versions.diode,
-    "io.suzaku" %%% "diode-react" % versions.diode,
+    "io.suzaku" %%% "diode-react" % "1.1.4.131",
     "org.scala-js" %%% "scalajs-dom" % versions.scalaDom,
     "com.lihaoyi" %%% "utest" % versions.uTest % Test
   ))
 
   /** Dependencies for external JS libs that are bundled into a single .js file according to dependency order */
   val jsDependencies = Def.setting(Seq(
-    "org.webjars.bower" % "react" % versions.react / "react-with-addons.js" minified "react-with-addons.min.js" commonJSName "React",
-    "org.webjars.bower" % "react" % versions.react / "react-dom.js" minified "react-dom.min.js" dependsOn "react-with-addons.js" commonJSName "ReactDOM",
+    "org.webjars.bower" % "react" % versions.react / "react.development.js" minified "react.production.min.js" commonJSName "React",
+    "org.webjars.bower" % "react" % versions.react / "react-dom.development.js" minified "react-dom.production.min.js" dependsOn "react.development.js" commonJSName "ReactDOM",
     "org.webjars" % "jquery" % versions.jQuery / "jquery.js" minified "jquery.min.js",
     "org.webjars" % "bootstrap" % versions.bootstrap / "bootstrap.js" minified "bootstrap.min.js" dependsOn "jquery.js",
     "org.webjars" % "chartjs" % versions.chartjs / "Chart.js" minified "Chart.min.js",
