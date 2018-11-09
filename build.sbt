@@ -60,6 +60,7 @@ lazy val server = (project in file("server"))
     scalaJSProjects := clients,
     pipelineStages in Assets := Seq(scalaJSPipeline),
     pipelineStages := Seq(digest, gzip),
+    libraryDependencies += guice,
     // compress CSS
     LessKeys.compress in Assets := true
   )
@@ -83,4 +84,4 @@ lazy val ReleaseCmd = Command.command("release") {
 // lazy val root = (project in file(".")).aggregate(client, server)
 
 // loads the Play server project at sbt startup
-onLoad in Global := (Command.process("project server", _: State)) compose (onLoad in Global).value
+onLoad in Global := ("project server" :: (_: State)) compose (onLoad in Global).value
